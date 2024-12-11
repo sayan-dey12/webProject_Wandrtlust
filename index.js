@@ -40,6 +40,13 @@ app.get("/listing/:id",async(req,res)=>{
     res.render("listings/show.ejs",{listingId});
 })
 
+//crearte route
+app.post("/listing",async(req,res)=>{
+    const newListing=new listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listing");
+})
+
 
 // app.get("/testListing",async(req,res)=>{
 //     const sampleListing=new listing({
