@@ -1,0 +1,21 @@
+/* body{
+    background-color: aliceblue;
+} */
+
+.navbar{
+    size: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link{
+    color: #222222 !important;
+}
+
+/* Footer */
+.f-info-links{
+    text-decoration: none;
+    color: #222222;
+}
