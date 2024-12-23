@@ -6,7 +6,7 @@
             <form method="POST" action="/listing/<%=listingId._id%>?_method=PUT" class="needs-validation" novalidate>
                 <div class="mb-3 mt-3">
                     <label for="title" class="form-label">Title</label>
-                    <input name="listing[title" value="<%= listingId.title %>" type="text" class="form-control" required>
+                    <input name="listing[title]" value="<%= listingId.title %>" type="text" class="form-control" required>
                     <div class="invalid-feedback">Title should be valid</div>
                 </div>
                 <div class="mb-3">
@@ -16,7 +16,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="image[url]" class="form-label">Image link</label>
-                    <input name="listing[image[url]]" value="<%= listingId.image.url %>" type="text" class="form-control" required>
+                    <input name="listing[image][url]" value="<%= listingId.image.url %>" type="text" class="form-control" required>
                     <div class="invalid-feedback">Image url should be valid</div>
                 </div>
                 <div class="row">

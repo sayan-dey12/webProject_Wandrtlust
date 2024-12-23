@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const Reviews = require("./reviews");
 const Schema=mongoose.Schema;
 
 const listinigSchema=new Schema({
@@ -13,7 +14,7 @@ const listinigSchema=new Schema({
     image:{
         filename:{
             type:String,
-            require:true
+            //require:true
         },
         url:{
             type:String,
@@ -34,8 +35,24 @@ const listinigSchema=new Schema({
     country:{
         type:String,
         require:true
-    }
+    },
+    reviews:[
+        {
+        type:Schema.Types.ObjectId,
+        ref:"Review",
+        },
+    ]
 });
+
+listinigSchema.post("findOneAndDelete",async (listing)=>{
+   if(listing){
+    await Reviews.deleteMany({
+        _id:{
+            $in:listing.reviews
+        }
+    })
+   }  
+}) 
 
 const Listing=mongoose.model("Listing",listinigSchema);
 module.exports=Listing;
