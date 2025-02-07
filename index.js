@@ -8,6 +8,10 @@ const expressError=require("./utils/expressError.js");
 const bodyParser = require('body-parser');
 const session=require("express-session");
 const flash=require("connect-flash");   
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./models/user.js");
+
 
 
 main()
@@ -49,21 +53,41 @@ app.get("/",(req,res)=>{
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
     next();
 })
 
+// app.get("/demouser",async(req,res)=>{
+//     let fakeuser=new User({
+//         email:"demouser@gmail.com",
+//         username:"demouser"
+//     })
+//     let  registereduUser= await User.register(fakeuser,"hellothere");
+//     res.send(registereduUser);
+// })
+
 //routes
-const reviews=require("./routes/review.js")
-const listings=require("./routes/listing.js");
+const reviewsRouter=require("./routes/review.js")
+const listingsRouter=require("./routes/listing.js");
+const usersRouter=require("./routes/user.js");
 
 //all listing routes//
-app.use("/listing",listings);
+app.use("/listing",listingsRouter);
 
 //all review routes//
-app.use("/listing/:id/reviews",reviews);  
+app.use("/listing/:id/reviews",reviewsRouter); 
+
+//all user routes//
+app.use("/",usersRouter);
 
 app.all("*",(req,res,next)=>{
     next(new expressError(404,"Page Not Found!"))
