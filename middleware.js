@@ -11,10 +11,12 @@ module.exports.isLoggedIn=(req,res,next)=>{
         return res.redirect("/login");
     }
     next();
-}
+}  
 
 module.exports.saveRedirectUrl=(req,res,next)=>{
-    if(req.session.redirectUrl){
+    if(req.session.returnTo){
+        console.log(req.session.returnTo);
+        
         res.locals.redirectUrl=req.session.returnTo;
         delete req.session.returnTo;
     }

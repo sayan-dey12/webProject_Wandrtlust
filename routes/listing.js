@@ -19,10 +19,11 @@ router.get("/new",isLoggedIn,ListingController.renderNewForm);
 
 router.route("/:id")
 .get(wrapeAsync(ListingController.showListing))
-.get(isLoggedIn,isOwner,wrapeAsync(ListingController.renderEditForm))
-.put(validateListing,isLoggedIn,isOwner,wrapeAsync(ListingController.updateListing))
+.put(isLoggedIn,isOwner,upload.single("listing[image][url]"),validateListing,wrapeAsync(ListingController.updateListing))
 .delete(isLoggedIn,isOwner,wrapeAsync(ListingController.destroyListing))
 
+//edit route
+router.get("/:id/edit",isLoggedIn,isOwner,wrapeAsync(ListingController.renderEditForm))
 
 
 module.exports=router;
