@@ -1,5 +1,11 @@
 <% layout("/layouts/boilerplate") %>
-<body>
+<script>
+    // Safely escape all variables
+    const mapKey = <%- JSON.stringify(process.env.MAP_API_KEY) %>;
+    const Listing = <%- JSON.stringify(listingId) %>;
+</script>
+<body> 
+    
     <div class="row">
         <div class="col-8 offset-3 mt-3">
             <h3><%= listingId.title %></h3>
@@ -58,25 +64,32 @@
                 </form>
                 <hr>
             <% } %>
-            <p><b>All reviews</b></p>
-            <div class="row">
-                <% for(let review of listingId.reviews) { %>
-                    <div class="card col-5 mb-3 ms-3">
-                        <div class="card-body">
-                            <h5 class="card-title">@<%= review.author.username %></h5>
-                            <p class="starability-result card-text" data-rating="<%= review.rating %>">
-                                
-                            </p>
-                            <p class="card-text"><%= review.comment %></p>
-                            <% if(currUser){ %>
-                                <form class="mb-3" method="POST" action="/listing/<%=listingId._id%>/reviews/<%=review._id%>?_method=DELETE">
-                                    <button class="btn btn-sm btn-dark">Delete</button>
-                                </form>
-                            <% } %>
+           <% if(listingId.reviews.length>0){ %>
+                <div class="row">
+                    <p><b>All reviews</b></p>
+                    <% for(let review of listingId.reviews) { %>
+                        <div class="card col-5 mb-3 ms-3">
+                            <div class="card-body">
+                                <h5 class="card-title">@<%= review.author.username %></h5>
+                                <p class="starability-result card-text" data-rating="<%= review.rating %>">
+                                    
+                                </p>
+                                <p class="card-text"><%= review.comment %></p>
+                                <% if(currUser){ %>
+                                    <form class="mb-3" method="POST" action="/listing/<%=listingId._id%>/reviews/<%=review._id%>?_method=DELETE">
+                                        <button class="btn btn-sm btn-dark">Delete</button>
+                                    </form>
+                                <% } %>
+                            </div>
                         </div>
-                    </div>
-                <%}%>
-            </div>
+                    <%}%>
+                </div>
+            <% } %>
+        </div>
+        <div class="col-8 offset-3 mt-3 mb-3">
+            <h3>Where you'll be</h3>
+            <div id="map" class="map"></div>
         </div>
     </div>
 </body>
+<script src="/js/map.js"></script>

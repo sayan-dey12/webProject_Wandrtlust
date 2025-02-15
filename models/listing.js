@@ -45,7 +45,20 @@ const listinigSchema=new Schema({
     owner:{
         type:Schema.Types.ObjectId,
         ref:"User",
+    },
+    coordinates:{
+        latitude:{
+            type:Number,
+            require:true
+        },
+        longitude:{
+            type:Number,
+            require:true
+        }
     }
+     
+    
+      
 });
 
 listinigSchema.post("findOneAndDelete",async (listing)=>{
